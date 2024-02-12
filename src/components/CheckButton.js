@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import CheckIcon from "../assets/icons/CheckIcon";
 
-function CheckButton() {
-  const [check, setCheck] = useState(false);
-  return check ? (
+function CheckButton({ status }) {
+  return (
     <div
-      className="bg-gray-300 w-6 h-6 cursor-pointer rounded-sm"
-      onClick={() => setCheck(!check)}
-    ></div>
-  ) : (
-    <div
-      className="bg-x-violet w-6 h-6 cursor-pointer rounded-sm"
-      onClick={() => setCheck(!check)}
+      className={
+        status === "completed"
+          ? "bg-x-violet w-6 h-6 cursor-pointer rounded-sm"
+          : "bg-gray-300 w-6 h-6 cursor-pointer rounded-sm"
+      }
     >
-      <CheckIcon color="#fff" />
+      {status === "completed" ? <CheckIcon color="#fff" /> : null}
     </div>
   );
 }
