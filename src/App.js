@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "./components/Layout";
 import Title from "./components/Title";
 import TodoBody from "./components/TodoBody";
@@ -8,15 +8,28 @@ import Modal from "./components/Modal";
 function App() {
   const [showModal, setShowModal] = useState(false);
   const [index, setIndex] = useState();
+
   const [form, setForm] = useState({
     title: "",
     status: "incompleted",
     priority: "low",
+    date: new Date().toString(),
   });
-  const [data, setData] = useState([
-    { title: "task1", status: "completed", priority: "medium" },
-    { title: "task2", status: "incompleted", priority: "high" },
-  ]);
+  const [data, setData] = useState([]);
+  const [finalData, setFinalData] = useState([]);
+  // filter state
+  const [filterPriority, setFilterPriority] = useState("");
+
+  useEffect(() => {
+    const updatedData = data?.filter(
+      (item) => item?.priority.toLowerCase() === filterPriority.toLowerCase()
+    );
+    if (filterPriority) {
+      setFinalData(updatedData);
+    } else {
+      setFinalData(data);
+    }
+  }, [data, filterPriority]);
 
   // handle modal
   const openModal = () => {
@@ -30,6 +43,11 @@ function App() {
   // handle form
   const handleAdd = () => {
     setData([...data, form]);
+    setForm({
+      title: "",
+      status: "incompleted",
+      priority: "low",
+    });
   };
   const handleUpdate = () => {
     const newItems = [...data];
@@ -37,6 +55,7 @@ function App() {
       title: form?.title,
       status: form?.status,
       priority: form?.priority,
+      date: new Date().toString(),
     };
     newItems.splice(index, 1, todoObj);
     setData(newItems);
@@ -54,9 +73,13 @@ function App() {
           Todo List
         </Title>
       </div>
-      <TodoHeader data={data} openModal={openModal} />
-      <TodoBody
+      <TodoHeader
         data={data}
+        openModal={openModal}
+        setFilterPriority={setFilterPriority}
+      />
+      <TodoBody
+        data={finalData}
         onDelete={handleDelete}
         setForm={setForm}
         openModal={openModal}

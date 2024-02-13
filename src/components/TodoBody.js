@@ -3,7 +3,7 @@ import Button from "./Button";
 import EditIcon from "../assets/icons/EditIcon";
 import CheckButton from "./CheckButton";
 import DeleteIcon from "../assets/icons/DeleteIcon";
-import CircleIcon from "../assets/icons/CircleIcon";
+import dayjs from "dayjs";
 
 export default function TodoBody({
   data,
@@ -13,13 +13,13 @@ export default function TodoBody({
   onDelete,
 }) {
   if (data?.length === 0) {
-    return <p>no data found</p>;
+    return (
+      <div className="p-4 bg-gray-100 rounded-md flex flex-col gap-5">
+        <p className="text-center">No Data Found</p>
+      </div>
+    );
   }
-  const priorityColors = {
-    low: "gray",
-    medium: "yellow",
-    high: "red",
-  };
+
   return (
     <div className="p-4 bg-gray-100 rounded-md flex flex-col gap-5">
       {data?.map((item, index) => {
@@ -36,16 +36,26 @@ export default function TodoBody({
               <div>
                 <p>{done ? <del>{item.title}</del> : item.title}</p>
                 <span className="text-xs text-gray-500">
-                  02:44 am, 11/02/2024
+                  {dayjs(item?.date).format("hh:mm:ss , DD/MM/YYYY")}
                 </span>
               </div>
             </div>
             {/* right */}
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
               {done ? (
                 ""
               ) : (
-                <CircleIcon color={priorityColors[item?.priority]} />
+                <>
+                  <p
+                    className={
+                      "px-3 py-1 rounded-full bg-gray-500 text-white text-xs"
+                    }
+                  >
+                    {item.priority === "low" ? "low" : null}
+                    {item.priority === "medium" ? "medium" : null}
+                    {item.priority === "high" ? "high" : null}
+                  </p>
+                </>
               )}
 
               <Button
