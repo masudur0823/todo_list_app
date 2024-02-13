@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import CheckIcon from "../assets/icons/CheckIcon";
 
 function CheckButton({ status }) {
