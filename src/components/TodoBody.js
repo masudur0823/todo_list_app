@@ -47,9 +47,11 @@ export default function TodoBody({
               ) : (
                 <>
                   <p
-                    className={
-                      "px-3 py-1 rounded-full bg-gray-500 text-white text-xs"
-                    }
+                    className={`px-3 py-1 rounded-full text-white text-xs ${
+                      item.priority === "low" ? "bg-gray-500" : ""
+                    }${item.priority === "medium" ? "bg-yellow-500" : ""} ${
+                      item.priority === "high" ? "bg-red-500" : ""
+                    }`}
                   >
                     {item.priority === "low" ? "low" : null}
                     {item.priority === "medium" ? "medium" : null}

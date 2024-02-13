@@ -13,7 +13,6 @@ function App() {
     title: "",
     status: "incompleted",
     priority: "low",
-    date: new Date().toString(),
   });
   const [data, setData] = useState([]);
   const [finalData, setFinalData] = useState([]);
@@ -42,7 +41,7 @@ function App() {
 
   // handle form
   const handleAdd = () => {
-    setData([...data, form]);
+    setData([...data, { ...form, date: new Date().toString() }]);
     setForm({
       title: "",
       status: "incompleted",
